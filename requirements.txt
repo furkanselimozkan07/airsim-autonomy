@@ -1,0 +1,2 @@
+# Core logic is pure Python. Install the simulator client with: pip install airsim
+pytest
