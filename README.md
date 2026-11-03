@@ -12,6 +12,8 @@ so it is fully testable **without a running simulator**.
 - `PID` controller: output clamping, integral anti-windup, derivative on measurement (no setpoint kick)
 - `WaypointMission`: ordered waypoints with per-waypoint speed and acceptance radius, progress tracking,
   path length (AirSim NED coordinates: z is down)
+- `VelocityController`: position error → clamped 3-axis velocity command (per-axis PID, direction-preserving
+  speed limit, vertical cap, smooth arrival slow-down)
 - Roadmap with upcoming features: see [ROADMAP.md](ROADMAP.md)
 
 ## Install
@@ -29,6 +31,11 @@ from airsim_autonomy import PID, PIDConfig, Vec3, WaypointMission
 
 mission = WaypointMission.from_tuples([(10, 0, -5), (10, 10, -5)], speed=3, acceptance_radius=1)
 pid_x = PID(PIDConfig(kp=1.2, ki=0.05, kd=0.3, out_min=-5, out_max=5))
+
+# or one controller for all three axes:
+from airsim_autonomy import VelocityConfig, VelocityController
+ctrl = VelocityController(VelocityConfig(kp=1.0, max_speed=5, arrival_radius=4))
+cmd = ctrl.update(mission.current.position, Vec3(0, 0, 0), dt=0.05, speed_limit=mission.current.speed)
 
 position = Vec3(0, 0, 0)
 target = mission.update(position)
