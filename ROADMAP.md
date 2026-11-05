@@ -10,7 +10,7 @@ YOLO object detection and mission logging/plotting.
 
 - [x] Project layout, PID controller (anti-windup) and waypoint mission model with tests
 - [x] Velocity controller: turn position error into clamped 3-axis velocity commands (PID per axis)
-- [ ] `DroneClient` adapter protocol + `AirSimDrone` implementation with a fake client for tests
+- [x] `DroneClient` adapter protocol + `AirSimDrone` implementation with a fake client for tests
 - [ ] Mission runner: fly a `WaypointMission` through the adapter (takeoff, loop, land)
 - [ ] CLI entry point `airsim-mission` loading missions from JSON/YAML
 - [ ] Mission loader/validator for JSON files + example missions
@@ -27,10 +27,11 @@ YOLO object detection and mission logging/plotting.
 - [ ] Geofence and battery/timeout failsafes
 - [ ] Search patterns: lawnmower and spiral coverage waypoint generators
 - [ ] Return-to-home failsafe
-- [ ] GitHub Actions CI running pytest
+- [x] GitHub Actions CI running pytest
 - [ ] Documentation: architecture overview and tutorial
 
 ## Changelog
 
+- 2026-11-05: `drone.py` — `DroneClient` protocol, `AirSimDrone` (lazy `airsim` import, injectable client), `FakeDrone` point-mass simulator; closed-loop test; GitHub Actions pytest CI; 9 new tests.
 - 2026-11-03: `VelocityController` — per-axis PID, direction-preserving speed clamp, vertical cap and arrival slow-down; 11 new tests.
 - 2026-10-27: Initial project layout (`src/airsim_autonomy`, tests, pyproject, MIT license), PID controller with anti-windup and derivative-on-measurement, and waypoint mission model; 15 pytest tests.

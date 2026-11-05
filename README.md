@@ -50,3 +50,18 @@ tests/                 pytest suite (no simulator required)
 ```
 
 License: MIT
+
+## Drone adapter
+
+Control code talks to a small `DroneClient` protocol (`airsim_autonomy.drone`), so it runs against
+either the real simulator or a fake:
+
+```python
+from airsim_autonomy import AirSimDrone, FakeDrone, Vec3
+
+drone = FakeDrone()          # or AirSimDrone("Drone1")  (needs `pip install airsim`)
+drone.connect(); drone.takeoff(5.0)
+drone.move_by_velocity(Vec3(2, 0, 0), 0.5)
+print(drone.get_state().position)
+drone.land(); drone.disconnect()
+```
