@@ -14,6 +14,9 @@ so it is fully testable **without a running simulator**.
   path length (AirSim NED coordinates: z is down)
 - `VelocityController`: position error → clamped 3-axis velocity command (per-axis PID, direction-preserving
   speed limit, vertical cap, smooth arrival slow-down)
+- `VelocityController`: per-axis PID, speed clamp and arrival slow-down
+- `DroneClient` protocol with `AirSimDrone` (real) and `FakeDrone` (tests)
+- `MissionRunner`: takeoff, track waypoints, land; timeout/collision abort, `on_tick` hook
 - Roadmap with upcoming features: see [ROADMAP.md](ROADMAP.md)
 
 ## Install
@@ -40,6 +43,16 @@ cmd = ctrl.update(mission.current.position, Vec3(0, 0, 0), dt=0.05, speed_limit=
 position = Vec3(0, 0, 0)
 target = mission.update(position)
 vx = pid_x.update(target.position.x, position.x, dt=0.05)
+```
+
+### Flying a mission (FakeDrone here; swap in `AirSimDrone()` for the simulator)
+
+```python
+from airsim_autonomy import FakeDrone, MissionRunner, RunnerConfig, WaypointMission
+
+mission = WaypointMission.from_tuples([(10, 0, -3), (10, 10, -3)], speed=4)
+result = MissionRunner(FakeDrone(), mission, config=RunnerConfig(dt=0.2)).run()
+print(result.status, result.waypoints_reached, f"{result.path_length:.1f} m")
 ```
 
 ## Layout
