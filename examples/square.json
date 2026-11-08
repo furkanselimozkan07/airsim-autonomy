@@ -1,0 +1,12 @@
+{
+  "name": "square-5m",
+  "defaults": {"speed": 4.0, "acceptance_radius": 1.0},
+  "runner": {"dt": 0.2, "takeoff_altitude": 5.0, "timeout": 120},
+  "controller": {"kp": 1.0, "max_speed": 5.0, "arrival_radius": 4.0},
+  "waypoints": [
+    [10, 0, -5],
+    [10, 10, -5],
+    {"position": [0, 10, -5], "speed": 2.0},
+    [0, 0, -5]
+  ]
+}

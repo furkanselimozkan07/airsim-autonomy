@@ -12,8 +12,8 @@ YOLO object detection and mission logging/plotting.
 - [x] Velocity controller: turn position error into clamped 3-axis velocity commands (PID per axis)
 - [x] `DroneClient` adapter protocol + `AirSimDrone` implementation with a fake client for tests
 - [x] Mission runner: fly a `WaypointMission` through the adapter (takeoff, loop, land)
-- [ ] CLI entry point `airsim-mission` loading missions from JSON/YAML
-- [ ] Mission loader/validator for JSON files + example missions
+- [x] CLI entry point `airsim-mission` loading missions from JSON/YAML
+- [x] Mission loader/validator for JSON files + example missions
 - [ ] Telemetry logger (CSV) recording position, velocity, target each tick
 - [ ] Plotting of logged trajectories (matplotlib, optional extra)
 - [ ] Geometry helpers: yaw-to-target, NED/ENU conversions, path smoothing
@@ -32,6 +32,7 @@ YOLO object detection and mission logging/plotting.
 
 ## Changelog
 
+- 2026-11-08: `loader.py` (JSON mission validation with path-aware errors, defaults, runner/controller config) and `airsim-mission` CLI (`validate`, `run --fake`); `examples/square.json`; 20 new tests. JSON only for now, keeping the package dependency-free.
 - 2026-11-06: `runner.py` — `MissionRunner` (takeoff, PID tracking loop, land) with timeout/collision handling, `on_tick` hook for telemetry and `MissionResult`; 7 new tests.
 - 2026-11-05: `drone.py` — `DroneClient` protocol, `AirSimDrone` (lazy `airsim` import, injectable client), `FakeDrone` point-mass simulator; closed-loop test; GitHub Actions pytest CI; 9 new tests.
 - 2026-11-03: `VelocityController` — per-axis PID, direction-preserving speed clamp, vertical cap and arrival slow-down; 11 new tests.

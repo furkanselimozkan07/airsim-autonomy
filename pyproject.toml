@@ -11,6 +11,9 @@ requires-python = ">=3.9"
 license = { text = "MIT" }
 dependencies = []
 
+[project.scripts]
+airsim-mission = "airsim_autonomy.cli:main"
+
 [project.optional-dependencies]
 sim = ["airsim"]
 dev = ["pytest"]

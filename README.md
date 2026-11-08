@@ -17,6 +17,8 @@ so it is fully testable **without a running simulator**.
 - `VelocityController`: per-axis PID, speed clamp and arrival slow-down
 - `DroneClient` protocol with `AirSimDrone` (real) and `FakeDrone` (tests)
 - `MissionRunner`: takeoff, track waypoints, land; timeout/collision abort, `on_tick` hook
+- `load_mission` / `parse_mission`: validated JSON missions (defaults, per-waypoint overrides, runner and controller tuning) with path-aware errors
+- `airsim-mission` CLI: `validate` and `run` (`--fake` runs a built-in point-mass simulator, no AirSim needed)
 - Roadmap with upcoming features: see [ROADMAP.md](ROADMAP.md)
 
 ## Install
@@ -54,6 +56,18 @@ mission = WaypointMission.from_tuples([(10, 0, -3), (10, 10, -3)], speed=4)
 result = MissionRunner(FakeDrone(), mission, config=RunnerConfig(dt=0.2)).run()
 print(result.status, result.waypoints_reached, f"{result.path_length:.1f} m")
 ```
+
+## Mission files and CLI
+
+```bash
+pip install -e .
+airsim-mission validate examples/square.json
+airsim-mission run examples/square.json --fake          # no simulator needed
+airsim-mission run examples/square.json --vehicle Drone1 --timeout 90   # real AirSim
+```
+
+See [`examples/square.json`](examples/square.json) and the schema in `src/airsim_autonomy/loader.py`.
+Exit codes: 0 success, 1 mission failed (timeout/collision), 2 invalid mission file.
 
 ## Layout
 
