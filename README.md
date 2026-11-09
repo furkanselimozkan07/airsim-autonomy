@@ -19,6 +19,7 @@ so it is fully testable **without a running simulator**.
 - `MissionRunner`: takeoff, track waypoints, land; timeout/collision abort, `on_tick` hook
 - `load_mission` / `parse_mission`: validated JSON missions (defaults, per-waypoint overrides, runner and controller tuning) with path-aware errors
 - `airsim-mission` CLI: `validate` and `run` (`--fake` runs a built-in point-mass simulator, no AirSim needed)
+- `TelemetryLogger`: per-tick CSV (position, velocity, target, command, waypoint, collision); `read_telemetry` / `summarize` for analysis; CLI `run --log flight.csv` and `stats flight.csv`
 - Roadmap with upcoming features: see [ROADMAP.md](ROADMAP.md)
 
 ## Install
@@ -67,6 +68,11 @@ airsim-mission run examples/square.json --vehicle Drone1 --timeout 90   # real A
 ```
 
 See [`examples/square.json`](examples/square.json) and the schema in `src/airsim_autonomy/loader.py`.
+```bash
+airsim-mission run examples/square.json --fake --log flight.csv   # record telemetry
+airsim-mission stats flight.csv                                   # speed, path length, altitude, final error
+```
+
 Exit codes: 0 success, 1 mission failed (timeout/collision), 2 invalid mission file.
 
 ## Layout
