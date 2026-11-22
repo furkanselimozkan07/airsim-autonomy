@@ -5,6 +5,7 @@
     airsim-mission run examples/square.json --vehicle Drone1
     airsim-mission run examples/square.json --fake --log flight.csv
     airsim-mission stats flight.csv
+    airsim-mission plot flight.csv --out flight.png       # needs the `plot` extra
 """
 
 from __future__ import annotations
@@ -44,6 +45,20 @@ def _stats(path: str) -> int:
     return 0
 
 
+def _plot(path: str, out: str, title: str) -> int:
+    from .plotting import plot_flight
+    try:
+        rows = read_telemetry(path)
+        if not rows:
+            raise ValueError("telemetry file has no samples")
+        written = plot_flight(rows, out, title=title)
+    except (OSError, ValueError, RuntimeError) as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+    print(f"plot -> {written}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="airsim-mission",
                                 description="Validate and fly AirSim waypoint missions.")
@@ -59,6 +74,10 @@ def build_parser() -> argparse.ArgumentParser:
     r.add_argument("--timeout", type=float, help="override mission timeout (seconds)")
     t = sub.add_parser("stats", help="summarize a telemetry CSV written by `run --log`")
     t.add_argument("csv", help="path to telemetry CSV")
+    g = sub.add_parser("plot", help="render a telemetry CSV to a PNG/SVG/PDF figure")
+    g.add_argument("csv", help="path to telemetry CSV")
+    g.add_argument("--out", default="flight.png", help="output image (default: flight.png)")
+    g.add_argument("--title", default="Flight", help="figure title")
     return p
 
 
@@ -67,6 +86,8 @@ def main(argv: Optional[List[str]] = None, drone: Optional[DroneClient] = None) 
     args = build_parser().parse_args(argv)
     if args.command == "stats":
         return _stats(args.csv)
+    if args.command == "plot":
+        return _plot(args.csv, args.out, args.title)
     try:
         spec = load_mission(args.mission)
     except MissionFileError as exc:
