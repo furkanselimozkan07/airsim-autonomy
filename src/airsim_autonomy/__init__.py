@@ -1,6 +1,8 @@
 """Autonomous drone flight utilities for AirSim."""
 
 from .drone import AirSimDrone, DroneClient, DroneState, FakeDrone
+from .geometry import (angle_diff, bearing_deg, chaikin_smooth, cross_track_error,
+                       resample_path, wrap_angle, yaw_to_target)
 from .loader import MissionFileError, MissionSpec, load_mission, parse_mission
 from .pid import PID, PIDConfig
 from .runner import (MissionResult, MissionRunner, MissionStatus, RunnerConfig,
@@ -14,5 +16,7 @@ __all__ = ["MissionFileError", "MissionSpec", "load_mission", "parse_mission", "
            "VelocityConfig", "VelocityController",
            "MissionResult", "MissionRunner", "MissionStatus", "RunnerConfig", "TickInfo",
            "TelemetryLogger", "TelemetryRow", "TelemetrySummary", "read_telemetry", "summarize",
-           "AirSimDrone", "DroneClient", "DroneState", "FakeDrone"]
+           "AirSimDrone", "DroneClient", "DroneState", "FakeDrone",
+           "angle_diff", "bearing_deg", "chaikin_smooth", "cross_track_error", "resample_path",
+           "wrap_angle", "yaw_to_target"]
 __version__ = "0.1.0"

@@ -21,6 +21,7 @@ so it is fully testable **without a running simulator**.
 - `airsim-mission` CLI: `validate` and `run` (`--fake` runs a built-in point-mass simulator, no AirSim needed)
 - `plotting`: `airsim-mission plot flight.csv --out flight.png` renders top-down path, altitude and speed/target-error panels (optional `pip install .[plot]`)
 - `TelemetryLogger`: per-tick CSV (position, velocity, target, command, waypoint, collision); `read_telemetry` / `summarize` for analysis; CLI `run --log flight.csv` and `stats flight.csv`
+- `geometry`: `wrap_angle`/`angle_diff`, `yaw_to_target`/`bearing_deg`, quaternion↔yaw, NED↔ENU, GPS↔local NED (`geodetic_to_ned`), `cross_track_error`, `chaikin_smooth` corner cutting and `resample_path`
 - Roadmap with upcoming features: see [ROADMAP.md](ROADMAP.md)
 
 ## Install

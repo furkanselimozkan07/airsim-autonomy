@@ -16,7 +16,7 @@ YOLO object detection and mission logging/plotting.
 - [x] Mission loader/validator for JSON files + example missions
 - [x] Telemetry logger (CSV) recording position, velocity, target each tick
 - [x] Plotting of logged trajectories (matplotlib, optional extra)
-- [ ] Geometry helpers: yaw-to-target, NED/ENU conversions, path smoothing
+- [x] Geometry helpers: yaw-to-target, NED/ENU conversions, path smoothing
 - [ ] Speed profile: trapezoidal acceleration limiting along legs
 - [ ] Obstacle avoidance: depth-image sector analysis (pure numpy-free function)
 - [ ] Reactive avoidance steering blended into velocity commands
@@ -32,6 +32,7 @@ YOLO object detection and mission logging/plotting.
 
 ## Changelog
 
+- 2026-11-28: `geometry.py` — angle wrapping/diff, yaw & bearing to target, quaternion↔yaw, NED↔ENU, GPS↔local NED, cross-track error, Chaikin path smoothing and even resampling; 9 new tests.
 - 2026-11-22: `plotting.py` — pure `flight_series`/`waypoint_markers` (NED→east/north/up) plus `plot_flight` 3-panel figure (top-down path with waypoints and collisions, altitude, speed/target error); CLI `plot CSV --out flight.png`; `plot` extra; 6 new tests.
 - 2026-11-09: `telemetry.py` — `TelemetryLogger` (per-tick CSV, plugs into `MissionRunner.on_tick`), `read_telemetry`, `summarize`; CLI gains `run --log CSV` and `stats CSV`; 9 new tests.
 - 2026-11-08: `loader.py` (JSON mission validation with path-aware errors, defaults, runner/controller config) and `airsim-mission` CLI (`validate`, `run --fake`); `examples/square.json`; 20 new tests. JSON only for now, keeping the package dependency-free.
